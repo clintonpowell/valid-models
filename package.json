@@ -1,6 +1,6 @@
 {
   "name": "valid-models",
-  "version": "0.0.2",
+  "version": "0.0.21",
   "description": "A library that handles validation of models using the model structure",
   "main": "validator.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thelambdaC/valid-models"
+    "url": "git://github.com:thelambdaC/valid-models.git"
   },
   "bugs": {
     "url": "https://github.com/thelambdaC/valid-models/issues"
