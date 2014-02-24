@@ -1,0 +1,28 @@
+{
+  "name": "valid-models",
+  "version": "0.0.1",
+  "description": "A library that handles validation of models using the model structure",
+  "main": "validator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "validation",
+    "validate",
+    "validator",
+    "model",
+    "models",
+    "sanitize",
+    "valid"
+  ],
+  "author": "Clinton Powell",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thelambdaC/valid-models"
+  },
+  "bugs": {
+    "url": "https://github.com/thelambdaC/valid-models/issues"
+  },
+  "homepage": "https://github.com/thelambdaC/valid-models"
+}
