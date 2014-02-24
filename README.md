@@ -1,9 +1,10 @@
-<h1>Valid Models</h1>
-<p>A library for validating JavaScript objects</p>
+# Valid Models
 
-<h3>Simple to Use</h3>
-<h4>Initial Setup</h4>
-<code>
+A library for validating JavaScript objects
+
+## Simple to Use
+### Initial Setup
+```js
 var userValidation = {
    name: {
       hasValue: true,
@@ -34,9 +35,9 @@ var userValidation = {
      }
    }
 };
-</code>
-<h4>Now validate your models</h4>
-<code>
+```
+### Now validate your models
+```js
 var userValidation = require('./somemodels').userValidation;
 var validator = require('valid-models');
 
@@ -54,9 +55,9 @@ var myUserModel = {
 validator.validate(myUserModel, userValidation, function(errs) {
   console.log(errs);
 });
-</code>
-<h4>Output:</h4>
-<code>
+```
+### Output
+```js
 [
   {
     target:"phone",
@@ -68,5 +69,4 @@ validator.validate(myUserModel, userValidation, function(errs) {
     error:"Please enter a valid 2-letter state"
   }
 ]
-</code>
-
+```
