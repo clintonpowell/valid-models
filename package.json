@@ -19,7 +19,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com:thelambdaC/valid-models.git"
+    "url": "https://github.com/thelambdaC/valid-models.git"
   },
   "bugs": {
     "url": "https://github.com/thelambdaC/valid-models/issues"
