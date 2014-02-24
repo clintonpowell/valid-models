@@ -6,9 +6,11 @@ var Validator = module.exports = function Validator(msg) {
 };
 
 Validator.prototype = {
+
 	ValidatorException: function(v) {
 		this.message = 'Invalid validator: "'+v+'"';
 	}
+	, targetScope: ''
 	, andOrOperators: {
 		$and: function(item1, item2) { return Boolean(item1 && item2); }
 		, $or: function(item1, item2) { return Boolean(item1 || item2); }
@@ -57,7 +59,7 @@ Validator.prototype = {
 	, equalsOther: function(item, other, target) {
 		return item[target] === item[other];
 	}
-  	, subValidate: function(item, v, target) {
+  	, subValidate: function(item, v, target, scope) {
         var validator = v;
         if(validator == undefined || !(validator instanceof Object))
 			throw new this.ValidatorException(v);
@@ -69,7 +71,7 @@ Validator.prototype = {
 					truth = this.andOrOperators[test](truth, this[andTest](item, validator[test][andTest], target));
 					if(!truth) {
 						var err = (validator['$all'] || validator[test+'Error'] || this.defaultMessage);
-						errs.push({target: target, error: err});
+						errs.push({target: scope+target, error: err});
 						break;
 					}
 				}
@@ -78,15 +80,16 @@ Validator.prototype = {
 
 			if(this[test] && !this[test](item, validator[test], target)) {
 				var err = (validator['$all'] || validator[test+'Error'] || this.defaultMessage);
-				errs.push({target: target, error: err});
+				errs.push({target: scope+target, error: err});
 			}
         }
       	return errs;
 	}
-	, validate: function(item, v, attr, cb) {
-        if(attr)
-          item = item[attr];
-      
+	, validate: function(item, v, scope, cb) {
+        if(scope)
+        	item = item[scope];
+        else
+        	scope = "";
 		var validator = v;
 		if(validator == undefined || !(validator instanceof Object))
 			throw new this.ValidatorException(v);
@@ -102,7 +105,7 @@ Validator.prototype = {
 						truth = this.andOrOperators[test](truth, this[andTest](item, options[test][andTest], prop));
 						if(!truth) {
 							var err = (options['$all'] || options[test+'Error'] || this.defaultMessage);
-							errs.push({target: prop, error: err});
+							errs.push({target: scope+prop, error: err});
 							break;
 						}
 					}
@@ -111,17 +114,18 @@ Validator.prototype = {
 
 				if(this[test] && !this[test](item, options[test], prop)) {
 					var err = (options['$all'] || options[test+'Error'] || this.defaultMessage);
-					errs.push({target: prop, error: err});
+					errs.push({target: scope+prop, error: err});
 				}
                 else if(item[prop] && item[prop].hasOwnProperty(test) && item[prop][test] instanceof Object) {
-                  errs = errs.concat(this.validate(item[prop], validator[prop][test], test));
+                  errs = errs.concat(this.validate(item[prop], validator[prop][test], scope+prop+"."));
                 }
               else if(item[prop] && item[prop].hasOwnProperty(test)) {
-                  errs = errs.concat(this.subValidate(item[prop], validator[prop][test], test));
+                  errs = errs.concat(this.subValidate(item[prop], validator[prop][test], test, scope+prop+"."));
                }
             }
 		}
 
+		this.targetScope = '';
 		if(typeof cb === 'function')
         	cb(errs);
 	  	else return errs;
