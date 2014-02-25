@@ -2,6 +2,14 @@
 
 A library for validating JavaScript objects
 
+## changelog
+###0.0.4
+* added ability to use custom validator functions for methods
+* cleaned up clutter
+
+### previous versions
+* Initial commits and sanitization
+
 ## Simple to Use
 ### Initial Setup
 ```js
