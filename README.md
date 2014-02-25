@@ -3,6 +3,10 @@
 A library for validating JavaScript objects
 
 ## changelog
+###0.0.5
+* added ability to put `$error` inside Boolean specifiers instead of `$andError` etc.
+* fixed bug with the `$all` error messages repeating for each specifier
+* fixed other miscellaneous bugs
 ###0.0.4
 * added ability to use custom validator functions for methods
 * cleaned up clutter
