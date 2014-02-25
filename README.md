@@ -26,7 +26,7 @@ var userValidation = {
    },
    location: {
      address: {
-        hasValue: true,
+        minLength: 10,
         minLengthError: 'Enter a valid address'
      },
      city: {
@@ -38,7 +38,6 @@ var userValidation = {
      },
      state: {
         maxLength: 2,
-        hasValue: true,
         $all: 'Please enter a valid 2-letter state'
      }
    }
