@@ -10,7 +10,6 @@ Validator.prototype = {
 	ValidatorException: function(v) {
 		this.message = 'Invalid validator: "'+v+'"';
 	}
-	, targetScope: ''
 	, andOrOperators: {
 		$and: function(item1, item2) { return Boolean(item1 && item2); }
 		, $or: function(item1, item2) { return Boolean(item1 || item2); }
@@ -95,8 +94,15 @@ Validator.prototype = {
 			throw new this.ValidatorException(v);
 		var errs = [];
 		for(var prop in validator) {
-          if(this[prop]) continue;
 			var options = validator[prop];
+			if(typeof options === 'function') {
+				var res = options(item[prop]);
+				if(typeof res === 'string')
+					errs.push({target: scope+prop, error: res});
+				continue;
+			}
+			if(this[prop]) continue;
+
 			for(var test in options) {
 				if(test == '$and' || test == '$or') {
 					var truth = true;
@@ -117,15 +123,13 @@ Validator.prototype = {
 					errs.push({target: scope+prop, error: err});
 				}
                 else if(item[prop] && item[prop].hasOwnProperty(test) && item[prop][test] instanceof Object) {
-                  errs = errs.concat(this.validate(item[prop], validator[prop][test], scope+prop+"."));
+                	errs = errs.concat(this.validate(item[prop], validator[prop][test], scope+prop+"."));
                 }
-              else if(item[prop] && item[prop].hasOwnProperty(test)) {
-                  errs = errs.concat(this.subValidate(item[prop], validator[prop][test], test, scope+prop+"."));
-               }
+                else if(item[prop] && item[prop].hasOwnProperty(test)) {
+                	errs = errs.concat(this.subValidate(item[prop], validator[prop][test], test, scope+prop+"."));
+                }
             }
 		}
-
-		this.targetScope = '';
 		if(typeof cb === 'function')
         	cb(errs);
 	  	else return errs;
