@@ -73,7 +73,7 @@ validator.validate(myUserModel, userValidation, function(errs) {
   },
 
   {
-    target:"state",
+    target:"location.state",
     error:"Please enter a valid 2-letter state"
   }
 ]
