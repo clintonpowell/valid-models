@@ -1,6 +1,6 @@
 {
   "name": "valid-models",
-  "version": "0.0.5",
+  "version": "0.0.51",
   "description": "A library that handles validation of models using the model structure",
   "main": "validator.js",
   "scripts": {
