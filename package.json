@@ -1,8 +1,8 @@
 {
   "name": "valid-models",
-  "version": "0.0.51",
-  "description": "A library that handles validation of models using the model structure",
-  "main": "validator.js",
+  "version": "0.1.0",
+  "description": "A library that handles validation and sanitization of models using the model structure",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,7 +13,11 @@
     "model",
     "models",
     "sanitize",
-    "valid"
+    "valid",
+    "javascript",
+    "object",
+    "mongo",
+    "mongodb"
   ],
   "author": "Clinton Powell",
   "license": "MIT",

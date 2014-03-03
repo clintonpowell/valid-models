@@ -3,14 +3,9 @@ var Validator = module.exports = function Validator(msg) {
     if(!(this instanceof Validator)){
         return new Validator(this.defaultMessage);
     }
-};
-
-Validator.prototype = {
-
-	ValidatorException: function(v) {
-		this.message = 'Invalid validator: "'+v+'"';
-	}
-	, andOrOperators: {
+}
+, _checks = {
+	andOrOperators: {
 		$and: function(item1, item2) { return Boolean(item1 && item2); }
 		, $or: function(item1, item2) { return Boolean(item1 || item2); }
 	}
@@ -58,6 +53,13 @@ Validator.prototype = {
 	, equalsOther: function(item, other, target) {
 		return item[target] === item[other];
 	}
+};
+
+Validator.prototype = {
+
+	ValidatorException: function(v) {
+		this.message = 'Invalid validator: "'+v+'"';
+	}
   	, subValidate: function(item, v, target, scope) {
         var validator = v;
         if(validator == undefined || !(validator instanceof Object))
@@ -76,7 +78,7 @@ Validator.prototype = {
 				var err = validator[test]['$error'];
 				for(var andTest in validator[test]) {
 					if(andTest == '$error') continue;
-					truth = this.andOrOperators[test](truth, this[andTest](item, validator[test][andTest], target));
+					truth = _checks.andOrOperators[test](truth, _checks[andTest](item, validator[test][andTest], target));
 					if(!truth) {
 						allValid = false;
 						var err = (err || validator[test+'Error'] || this.defaultMessage);
@@ -88,7 +90,7 @@ Validator.prototype = {
 				continue;
 			}
 
-			if(this[test] && !this[test](item, validator[test], target)) {
+			if(_checks[test] && !_checks[test](item, validator[test], target)) {
 				allValid = false;
 				var err = (validator[test+'Error'] || this.defaultMessage);
 				if(!allError)
@@ -122,7 +124,7 @@ Validator.prototype = {
 					errs.push({target: scope+prop, error: res});
 				continue;
 			}
-			if(this[prop]) continue;
+			if(_checks[prop]) continue;
 
 			for(var test in options) {
 				if(test == '$and' || test == '$or') {
@@ -130,8 +132,8 @@ Validator.prototype = {
 					var err = options[test]['$error'];
 					for(var andTest in options[test]) {
                         if(andTest == '$error') continue;
-                        console.log(this.andOrOperators[test], truth, this[andTest](item, options[test][andTest], prop));
-						truth = this.andOrOperators[test](truth, this[andTest](item, options[test][andTest], prop));
+                        console.log(_checks.andOrOperators[test], truth, _checks[andTest](item, options[test][andTest], prop));
+						truth = _checks.andOrOperators[test](truth, _checks[andTest](item, options[test][andTest], prop));
 						if(!truth) {
 							allValid = false;
 							var err = (err || options[test+'Error'] || this.defaultMessage);
@@ -142,7 +144,7 @@ Validator.prototype = {
 					}
 					continue;
 				}
-				if(this[test] && !this[test](item, options[test], prop)) {
+				if(_checks[test] && !_checks[test](item, options[test], prop)) {
 					allValid = false;
 					var err = (options[test+'Error'] || this.defaultMessage);
 					if(!allError)

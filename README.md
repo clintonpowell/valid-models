@@ -3,6 +3,8 @@
 A library for validating JavaScript objects
 
 ## changelog
+###0.1.0
+* Added sanitization library to help remove unwanted fields when transferring objects
 ###0.0.5
 * added ability to put `$error` inside Boolean specifiers instead of `$andError` etc.
 * fixed bug with the `$all` error messages repeating for each specifier
@@ -50,7 +52,7 @@ var userValidation = {
 ### Now validate your models
 ```js
 var userValidation = require('./somemodels').userValidation;
-var validator = require('valid-models');
+var validator = require('valid-models').validator();
 
 var myUserModel = {
    name: 'John Smith',
@@ -81,3 +83,56 @@ validator.validate(myUserModel, userValidation, function(errs) {
   }
 ]
 ```
+
+## Now in version 0.1.0
+### Sanitize your models
+```js
+var sanitizer = require('valid-models').sanitizer();
+
+var myModel = {
+   username: 'coolbeans123',
+   passHash: 'e3f2-3f1f-32f3-244b',
+   salt: 'fuzzywuzzywasabear',
+   name: {
+      first: 'John',
+      middle: 'Joshua',
+      last: 'McJacobson'
+   }
+};
+
+// Sanitizor object. Keep the specified fields
+var sanitized = {
+  username: true,
+  name: {
+     first: true,
+     last: true
+  }
+};
+
+sanitizer.sanitize(myModel, sanitized);
+/* Resulting in myModel sanitized in place:
+  {
+    username: 'coolbeans123',
+    name: {
+      first: 'John',
+      last: 'McJacobson'
+    }
+  }
+*/
+
+```
+Or use purge method which does the opposite (deletes specified fields);
+```js
+var purger = {
+  passHash: true,
+  salt: true,
+  name: {
+    middle: true
+  }
+};
+
+sanitizer.sanitize(myModel, purger);
+```
+
+
+
