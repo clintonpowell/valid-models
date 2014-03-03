@@ -5,10 +5,12 @@ A library for validating JavaScript objects
 ## changelog
 ###0.1.0
 * Added sanitization library to help remove unwanted fields when transferring objects
+
 ###0.0.5
 * added ability to put `$error` inside Boolean specifiers instead of `$andError` etc.
 * fixed bug with the `$all` error messages repeating for each specifier
 * fixed other miscellaneous bugs
+
 ###0.0.4
 * added ability to use custom validator functions for methods
 * cleaned up clutter
@@ -100,7 +102,7 @@ var myModel = {
    }
 };
 
-// Sanitizor object. Keep the specified fields
+// Sanitizer structure object. Keep the specified fields
 var sanitized = {
   username: true,
   name: {
