@@ -133,7 +133,7 @@ var purger = {
   }
 };
 
-sanitizer.sanitize(myModel, purger);
+sanitizer.purge(myModel, purger);
 ```
 
 
