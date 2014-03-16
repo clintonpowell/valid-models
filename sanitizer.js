@@ -6,8 +6,14 @@ var Sanitizer = module.exports = function Sanitizer() {
 
 Sanitizer.prototype = {
 	sanitize: function (model, sanitizer, cb) {
-		for(var layer in model)
-			this.sanitizeLayer(model, sanitizer, layer);
+		if(model instanceof Array) {
+			for(var i=0; i<model.length; ++i)
+				for(var layer in model[i])
+					this.sanitizeLayer(model[i], sanitizer, layer);
+		} else {
+			for(var layer in model)
+				this.sanitizeLayer(model, sanitizer, layer);
+		}
 
 		if(typeof cb === 'function')
 			cb(model);
