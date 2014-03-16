@@ -1,6 +1,6 @@
 {
   "name": "valid-models",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A library that handles validation and sanitization of models using the model structure",
   "main": "index.js",
   "scripts": {

@@ -43,7 +43,7 @@ Sanitizer.prototype = {
 		return model;
 	}
 	, purgeLayer: function(model, purger, layer) {
-		if(model[layer] === null || model[layer] === undefined) {
+		if(model[layer] === null || model[layer] === undefined || purger[layer] === null || purger[layer] === undefined) {
 			return;
 		}
 
