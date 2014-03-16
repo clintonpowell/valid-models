@@ -28,8 +28,14 @@ Sanitizer.prototype = {
 			this.sanitizeLayer(model[layer], sanitizer[layer], sublayer);
 	}
 	, purge: function(model, purger, cb) {
-		for(var layer in purger)
-			this.purgeLayer(model, purger, layer);
+		if(model instanceof Array) {
+			for(var i=0; i<model.length; ++i)
+				for(var layer in model[i])
+					this.purgeLayer(model[i], purger, layer);
+		} else {
+			for(var layer in model)
+				this.purgeLayer(model, purger, layer);
+		}
 
 		if(typeof cb === 'function')
 			cb(model);
