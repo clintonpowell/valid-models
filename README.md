@@ -111,7 +111,7 @@ var sanitized = {
   }
 };
 
-sanitizer.sanitize(myModel, sanitized);
+sanitizer.keepFields(myModel, sanitized);
 /* Resulting in myModel sanitized in place:
   {
     username: 'coolbeans123',
@@ -123,7 +123,7 @@ sanitizer.sanitize(myModel, sanitized);
 */
 
 ```
-Or use purge method which does the opposite (deletes specified fields);
+Or use withoutFields method which does the opposite (deletes specified fields);
 ```js
 var purger = {
   passHash: true,
@@ -133,7 +133,7 @@ var purger = {
   }
 };
 
-sanitizer.purge(myModel, purger);
+sanitizer.withoutFields(myModel, purger);
 ```
 
 
