@@ -5,7 +5,7 @@ var Sanitizer = module.exports = function Sanitizer() {
 };
 
 Sanitizer.prototype = {
-	sanitize: function (model, sanitizer, cb) {
+	keepFields: function (model, sanitizer, cb) {
 		if(model instanceof Array) {
 			for(var i=0; i<model.length; ++i)
 				for(var layer in model[i])
@@ -27,7 +27,7 @@ Sanitizer.prototype = {
 		for(var sublayer in model[layer])
 			this.sanitizeLayer(model[layer], sanitizer[layer], sublayer);
 	}
-	, purge: function(model, purger, cb) {
+	, withoutFields: function(model, purger, cb) {
 		if(model instanceof Array) {
 			for(var i=0; i<model.length; ++i)
 				for(var layer in model[i])
@@ -53,16 +53,16 @@ Sanitizer.prototype = {
 		for(var sublayer in purger[layer])
 			this.purgeLayer(model[layer], purger[layer], sublayer);
 	}
-	, extractSanitized: function(model, sanitizer, cb) {
+	, extractKeepFields: function(model, sanitizer, cb) {
 		var extract = JSON.parse(JSON.stringify(model)); //clone
-		this.sanitize(extract, sanitizer);
+		this.keepFields(extract, sanitizer);
 		if(typeof cb === 'function')
 			cb(extract);
 		return extract;
 	}
-	, extractPurged: function(model, sanitizer, cb) {
+	, extractWithoutFields: function(model, sanitizer, cb) {
 		var extract = JSON.parse(JSON.stringify(model)); //clone
-		this.purge(extract, sanitizer);
+		this.withoutFields(extract, sanitizer);
 		if(typeof cb === 'function')
 			cb(extract);
 		return extract;
